@@ -1,0 +1,6 @@
+go 1.18
+
+use (
+	./conc
+	./goinaction/chapter2/sample
+)
