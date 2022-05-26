@@ -21,27 +21,21 @@
 - a map data structure that provides  you with an unordered collection of key/value pairs
 
 #### Wrapping up
- Arrays are the building blocks for both slices and maps.
+- Arrays are the building blocks for both slices and maps.
 
- Slices are the idiomatic way in Go you work with collections of data. Maps are
-the way you work with key/value pairs of data.
+- Slices are the idiomatic way in Go you work with collections of data. Maps are the way you work with key/value pairs of data.
 
- The built-in function make allows you to create slices and maps with initial
-length and capacity. Slice and map literals can be used as well and support set-
-ting initial values for use.
+- The built-in function make allows you to create slices and maps with initial
+length and capacity. Slice and map literals can be used as well and support seting initial values for use.
 
- Slices have a capacity restriction, but can be extended using the built-in func-
-tion append.
+- Slices have a capacity restriction, but can be extended using the built-in function append.
 
- Maps don’t have a capacity or any restriction on growth.
+- Maps don’t have a capacity or any restriction on growth.
 
- The built-in function len can be used to retrieve the length of a slice or map.
+- The built-in function len can be used to retrieve the length of a slice or map.
 
- The built-in function cap only works on slices.
+- The built-in function cap only works on slices.
 
- Through the use of composition, you can create multidimensional arrays and
-slices. You can also create maps with values that are slices and other maps. A
-slice can’t be used as a map key.
+- Through the use of composition, you can create multidimensional arrays and slices. You can also create maps with values that are slices and other maps. A slice can’t be used as a map key.
 
- Passing a slice or map to a function is cheap and doesn’t make a copy of the
-underlying data structure.
+- Passing a slice or map to a function is cheap and doesn’t make a copy of the underlying data structure.

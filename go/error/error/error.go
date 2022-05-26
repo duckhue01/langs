@@ -1,31 +1,48 @@
-package k_error
+package error
 
 import (
 	"bytes"
 	"fmt"
 )
 
-type (
-	Error struct {
-		// machine-readable code
-		Code string
-		// human-readable message
-		Message string
+const (
+	E_INTERNAL_ERROR_CODE    = "internal"
+	E_INTERNAL_ERROR_MESSAGE = "An internal error has occurred"
+)
 
-		Op  string
-		Err error
+type (
+	Code    string
+	Op      string
+	Message string
+
+	Error struct {
+		Code    Code
+		Message Message
+		Op      Op
+		Err     error
 	}
 )
 
-const (
-	E_CONFLICT = "conflict"  // action cannot be performed
-	E_INTERNAL = "internal"  // internal error
-	E_INVALID  = "invalid"   // validation failed
-	E_NOTFOUND = "not_found" // entity does not exist
-)
+func E(args ...interface{}) *Error {
+	err := &Error{}
+	for _, arg := range args {
+		switch arg := arg.(type) {
+		case error:
+			err.Err = arg
+		case Code:
+			err.Code = arg
+		case Message:
+			err.Message = arg
+		case Op:
+			err.Op = arg
+
+		}
+	}
+	return err
+}
 
 // ErrorCode returns the code of the root error, if available. Otherwise returns EINTERNAL.
-func ErrorCode(err error) string {
+func ErrorCode(err error) Code {
 	if err == nil {
 		return ""
 	} else if e, ok := err.(*Error); ok && e.Code != "" {
@@ -33,10 +50,11 @@ func ErrorCode(err error) string {
 	} else if ok && e.Err != nil {
 		return ErrorCode(e.Err)
 	}
-	return E_INTERNAL
+	return E_INTERNAL_ERROR_CODE
 }
 
-func ErrorMessage(err error) string {
+// ErrorMessage
+func ErrorMessage(err error) Message {
 	if err == nil {
 		return ""
 	} else if e, ok := err.(*Error); ok && e.Message != "" {
@@ -44,7 +62,7 @@ func ErrorMessage(err error) string {
 	} else if ok && e.Err != nil {
 		return ErrorMessage(e.Err)
 	}
-	return "An internal error has occurred. Please contact technical support."
+	return E_INTERNAL_ERROR_MESSAGE
 }
 func (e *Error) Error() string {
 	var buf bytes.Buffer
@@ -62,7 +80,7 @@ func (e *Error) Error() string {
 		if e.Code != "" {
 			fmt.Fprintf(&buf, "<%s> ", e.Code)
 		}
-		buf.WriteString(e.Message)
+		buf.WriteString(string(e.Message))
 	}
 	return buf.String()
 }

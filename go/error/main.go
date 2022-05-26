@@ -1,29 +1,47 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"os"
 
-	"github.com/duckhue01/lang/go/error/k_error"
+	error "github.com/duckhue01/lang/go/error/error"
 )
 
 func main() {
+	user := UserService{}
 
-	_, err := os.ReadFile("./wrong")
-	err = &k_error.Error{
-		Code:    "1001",
-		Message: "error to read data from",
-		Op:      "FileOpen",
-		Err:     err,
+	fmt.Println(myError.ErrorMessage(user.createUser()))
+
+}
+
+type (
+	UserService struct {
 	}
-
-	newErr := &k_error.Error{
-		Code:    "100",
-		Message: "asda",
-		Op:      "ReadFile",
-		Err:     err,
+	Persistance struct {
 	}
+)
 
-	fmt.Println(k_error.ErrorCode(newErr))
+func (us *UserService) createUser() error {
+	op := "UserService.createUser"
+	persist := &Persistance{}
+
+	err := persist.insertUser()
+	err = persist.insertRole()
+
+	newErr := error.E( error.Op(op), error.Message("message") err)
+	return newErr
+}
+
+func (p *Persistance) insertUser() error {
+	op := "Persistance.insertUser"
+	err := errors.New("fail to insert user")
+	return myError.E( myError.Op(op), err)
+
+}
+
+func (p *Persistance) insertRole() error {
+	op := "Persistance.insertRole"
+	err := errors.New("fail to insert role")
+	return myError.E( myError.Op(op), err)
 
 }

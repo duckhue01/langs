@@ -1,1 +1,0 @@
-ERROR: 2022/05/05 11:10:32 main.go:46: Something has failed

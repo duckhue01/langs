@@ -5,4 +5,5 @@ use (
 	./tools
 	./conc
 	./packages/log
+	./test
 )
